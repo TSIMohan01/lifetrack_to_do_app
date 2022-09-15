@@ -56,6 +56,7 @@ class LandingPage extends StatelessWidget {
               // );
             },
             fsize: 12,
+            radius: 50,
           ),
           SizedBox(
             height: height * 0.01,

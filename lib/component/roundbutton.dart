@@ -6,15 +6,17 @@ class RoundButton extends StatelessWidget {
   final String text;
   final dynamic action;
   final double fsize;
+  final double radius;
 
-  const RoundButton(
-      {Key? key,
-      required this.bgColor,
-      required this.textColor,
-      required this.text,
-      this.action,
-      required this.fsize})
-      : super(key: key);
+  RoundButton({
+    Key? key,
+    required this.bgColor,
+    required this.textColor,
+    required this.text,
+    this.action,
+    required this.fsize,
+    required this.radius,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,8 @@ class RoundButton extends StatelessWidget {
       height: 45,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          shape: const StadiumBorder(),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(radius)),
           // Foreground color
           onPrimary: textColor, // Colors.white,
           // Background color

@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:lifetrack_to_do_app/component/roundbutton.dart';
-import 'package:lifetrack_to_do_app/component/textbutton.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class Screen1 extends StatefulWidget {
@@ -160,6 +159,7 @@ class _Screen1State extends State<Screen1> {
                                       // );
                                     },
                                     fsize: 14,
+                                    radius: 50,
                                   ),
                                   SizedBox(
                                     height: height * 0.01,
@@ -184,6 +184,7 @@ class _Screen1State extends State<Screen1> {
                                       // );
                                     },
                                     fsize: 10,
+                                    radius: 50,
                                   ),
                                 ],
                               ),

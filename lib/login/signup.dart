@@ -62,11 +62,12 @@ class SignUpPage extends StatelessWidget {
             SizedBox(
               height: height * 0.05,
             ),
-            const RoundButton(
+            RoundButton(
               bgColor: Color(0xFFff4f5a),
               textColor: Colors.white,
               text: "Create Lifetrack account",
               fsize: 12,
+              radius: 50,
             ),
             SizedBox(
               height: height * 0.02,

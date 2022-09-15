@@ -67,6 +67,7 @@ class LoginPage extends StatelessWidget {
                 Navigator.of(context).push(_createRouteWelcomePage());
               },
               fsize: 12,
+              radius: 50,
             ),
             SizedBox(
               height: height * 0.02,
