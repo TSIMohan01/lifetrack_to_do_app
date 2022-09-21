@@ -20,6 +20,8 @@ const Map<int, String> monthName = {
   11: "Nov",
   12: "Dec",
 };
+DateTime nowDate = DateTime.now();
+int currYear = nowDate.year;
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -48,7 +50,6 @@ class _HomePageState extends State<HomePage> {
       7: "Sunday"
     };
 
-    DateTime nowDate = DateTime.now();
     int currDate = nowDate.day;
 
     return Scaffold(
@@ -507,6 +508,7 @@ class DueDate extends StatelessWidget {
                   tableHeaderMonths(
                     currentMonth: DateTime.now().month,
                   ),
+                  Text(currYear.toString()),
                 ],
               ),
             ),
@@ -514,7 +516,7 @@ class DueDate extends StatelessWidget {
               child: TableCalendar(
                 headerVisible: false,
                 focusedDay: DateTime.now(),
-                firstDay: DateTime(1995),
+                firstDay: DateTime(currYear),
                 lastDay: DateTime(2050),
                 startingDayOfWeek: StartingDayOfWeek.monday,
               ),
