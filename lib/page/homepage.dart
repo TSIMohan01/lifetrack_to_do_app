@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:table_calendar/table_calendar.dart';
+
 import 'package:lifetrack_to_do_app/component/inputbox.dart';
 import 'package:lifetrack_to_do_app/component/radiobutton.dart';
 import 'package:lifetrack_to_do_app/component/roundbutton.dart';
 import 'package:lifetrack_to_do_app/component/textbutton.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
-import 'package:table_calendar/table_calendar.dart';
 
 const Map<int, String> monthName = {
   1: "Jan",
@@ -23,23 +25,55 @@ const Map<int, String> monthName = {
 DateTime nowDate = DateTime.now();
 int currYear = nowDate.year;
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+CalendarFormat format = CalendarFormat.month;
+DateTime selectedDay = DateTime.now();
+DateTime focusedDay = DateTime.now();
+
+DateFormat formatter = DateFormat('dd.MM.yyyy');
+String formatted = formatter.format(selectedDay);
+
+String formattedText = formatter.format(selectedDay);
+
+class HomePageTest extends StatefulWidget {
+  const HomePageTest({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomePageTest> createState() => _HomePageTestState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageTestState extends State<HomePageTest> {
+  DateTime? _date;
   bool isChecked = false;
 
   bool isExpanded = false;
+
+  bool loading = false;
   @override
   Widget build(BuildContext context) {
+    _dateString() {
+      if (_date == null) {
+        return 'NO';
+      } else {
+        return '${_date?.day}.${_date?.month}.${_date?.year}';
+      }
+    }
+
+    void formatedTextUpdate(String _formattedText) {
+      setState(() {
+        formattedText = _formattedText;
+        // loading = !loading;
+      });
+    }
+
+    print(formattedText + '___45545');
     //device Height
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
+    // String formateDate(DateTime _date) {
+    //   String _return = (_date.day + '-' + _date.month + '-' + _date.year) as String;
+    //   return _return;
+    // }
     const Map<int, String> weekdayName = {
       1: "Monday",
       2: "Tuesday",
@@ -230,6 +264,7 @@ class _HomePageState extends State<HomePage> {
             isScrollControlled: true,
             context: context,
             builder: (BuildContext context) {
+              void closeBotSheet() => Navigator.pop(context);
               final MediaQueryData mediaQueryData = MediaQuery.of(context);
               return Padding(
                 padding: mediaQueryData.viewInsets,
@@ -303,13 +338,18 @@ class _HomePageState extends State<HomePage> {
                                       height: 8,
                                     ),
                                     GestureDetector(
-                                      onTap: () {
-                                        showDialog(
+                                      onTap: () async {
+                                        final result = await showDatePicker(
                                           context: context,
-                                          builder: (BuildContext context) {
-                                            return DueDate();
-                                          },
+                                          initialDate: DateTime.now(),
+                                          firstDate: DateTime(2010),
+                                          lastDate: DateTime(2050),
                                         );
+                                        if (result != null) {
+                                          setState(() {
+                                            _date = result;
+                                          });
+                                        }
                                       },
                                       child: Container(
                                         width: (width / 3) * 1,
@@ -325,7 +365,7 @@ class _HomePageState extends State<HomePage> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text('19.08.2022'),
+                                            Text(_dateString()),
                                             Icon(Icons.calendar_month),
                                           ],
                                         ),
@@ -391,7 +431,7 @@ class _HomePageState extends State<HomePage> {
                               height: 10,
                             ),
                             TextButton(
-                              onPressed: () => Navigator.pop(context),
+                              onPressed: closeBotSheet,
                               child: Text(
                                 "Back to Task list",
                                 style: TextStyle(
@@ -487,9 +527,18 @@ class RepeatDialog extends StatelessWidget {
   }
 }
 
-class DueDate extends StatelessWidget {
-  const DueDate({Key? key}) : super(key: key);
+class DueDate extends StatefulWidget {
+  void Function(String _formattedText) formatedTextUpdate;
+  DueDate({
+    Key? key,
+    required this.formatedTextUpdate,
+  }) : super(key: key);
 
+  @override
+  State<DueDate> createState() => _DueDateState();
+}
+
+class _DueDateState extends State<DueDate> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -502,23 +551,67 @@ class DueDate extends StatelessWidget {
           children: [
             Container(
               height: 50,
-              color: Colors.amber,
+              color: Color(0xFFff4f5a),
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   tableHeaderMonths(
                     currentMonth: DateTime.now().month,
                   ),
-                  Text(currYear.toString()),
+                  Text(
+                    currYear.toString(),
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.white,
+                    ),
+                  ),
                 ],
               ),
             ),
-            Container(
-              child: TableCalendar(
-                headerVisible: false,
-                focusedDay: DateTime.now(),
-                firstDay: DateTime(currYear),
-                lastDay: DateTime(2050),
-                startingDayOfWeek: StartingDayOfWeek.monday,
+            Padding(
+              padding: EdgeInsets.only(top: 10),
+              child: Container(
+                child: TableCalendar(
+                  headerVisible: false,
+                  focusedDay: selectedDay,
+                  firstDay: DateTime(2010),
+                  lastDay: DateTime(2050),
+                  startingDayOfWeek: StartingDayOfWeek.monday,
+                  availableGestures: AvailableGestures.none,
+                  daysOfWeekHeight: 20,
+                  onFormatChanged: (CalendarFormat _format) {
+                    setState(() {
+                      format = _format;
+                    });
+                  },
+                  onDaySelected: (DateTime selectDay, DateTime focusDay) {
+                    setState(() {
+                      selectedDay = selectDay;
+                      focusedDay = focusDay;
+                      formatted = formatter.format(selectDay);
+                    });
+                    widget.formatedTextUpdate(formatter.format(selectDay));
+                    // print(formatter.format(selectDay));
+                  },
+                  selectedDayPredicate: (DateTime date) {
+                    return isSameDay(selectedDay, date);
+                  },
+                  calendarStyle: const CalendarStyle(
+                    isTodayHighlighted: true,
+                    selectedDecoration: BoxDecoration(
+                      color: Color(0xFF21a87d),
+                      shape: BoxShape.rectangle,
+                    ),
+                    selectedTextStyle: TextStyle(
+                      color: Colors.white,
+                    ),
+                    todayDecoration: BoxDecoration(
+                      color: Color(0xFF21a87d),
+                      shape: BoxShape.rectangle,
+                    ),
+                  ),
+                ),
               ),
             ),
           ],
@@ -550,7 +643,14 @@ class tableHeaderMonths extends StatelessWidget {
     headerMonths.add(monthName[getNextMonth(currentMonth + 3)]);
 
     return Container(
-      child: Row(children: [...headerMonths.map((month) => Text(month))]),
+      child: Row(children: [
+        ...headerMonths.map(
+          (month) => Text(
+            month,
+            style: TextStyle(fontSize: 12, color: Colors.white),
+          ),
+        )
+      ]),
     );
   }
 }
