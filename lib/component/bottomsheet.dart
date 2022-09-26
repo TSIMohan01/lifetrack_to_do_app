@@ -181,7 +181,7 @@ class _BottonSheetState extends State<BottonSheet> {
                                     MainAxisAlignment.spaceBetween,
                                 children: const [
                                   Text('19.08.2022'),
-                                  Icon(Icons.calendar_month),
+                                  Icon(Icons.arrow_circle_down_outlined),
                                 ],
                               ),
                             ),

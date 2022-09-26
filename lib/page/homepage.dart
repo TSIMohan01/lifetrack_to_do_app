@@ -243,6 +243,7 @@ class _HomePageState extends State<HomePage> {
           showModalBottomSheet<void>(
             isScrollControlled: true,
             context: context,
+            isDismissible: false,
             builder: (BuildContext context) {
               return StatefulBuilder(
                 builder: (context, state) {

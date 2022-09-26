@@ -48,11 +48,23 @@ class RepeatDialog extends StatelessWidget {
                         ),
                         Align(
                           alignment: Alignment.bottomRight,
-                          child: CTextButton(
-                            size: 18,
-                            text: 'Cancel',
-                            action: () => Navigator.pop(context),
-                            btColor: Color(0xFFff4f5a),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              CTextButton(
+                                size: 14,
+                                text: 'OK',
+                                action: () => Navigator.pop(context),
+                                btColor: Color(0xFFff4f5a),
+                              ),
+                              CTextButton(
+                                size: 14,
+                                text: 'Cancel',
+                                action: () => Navigator.pop(context),
+                                btColor: Color(0xFF727272),
+                              ),
+                            ],
                           ),
                         )
                       ],
