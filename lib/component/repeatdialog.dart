@@ -52,6 +52,7 @@ class RepeatDialog extends StatelessWidget {
                             size: 18,
                             text: 'Cancel',
                             action: () => Navigator.pop(context),
+                            btColor: Color(0xFFff4f5a),
                           ),
                         )
                       ],

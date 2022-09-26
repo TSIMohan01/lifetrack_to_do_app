@@ -86,6 +86,7 @@ class LoginPage extends StatelessWidget {
                     Navigator.of(context).push(_createRouteSignUp());
                   },
                   size: 10,
+                  btColor: Color(0xFFff4f5a),
                 ),
               ],
             )

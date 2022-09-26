@@ -67,6 +67,7 @@ class LandingPage extends StatelessWidget {
               Navigator.of(context).push(_createRouteLogin());
             },
             size: 12,
+            btColor: Color(0xFFff4f5a),
           ),
         ],
       ),

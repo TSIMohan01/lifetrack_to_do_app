@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:lifetrack_to_do_app/component/datepicker.dart';
 import 'package:lifetrack_to_do_app/component/repeatdialog.dart';
 import 'package:lifetrack_to_do_app/component/roundbutton.dart';
-import 'package:lifetrack_to_do_app/page/homepage%20copy.dart';
+import 'package:lifetrack_to_do_app/page/homepage.dart';
 
 class BottonSheet extends StatefulWidget {
   BottonSheet({Key? key}) : super(key: key);
@@ -10,6 +11,9 @@ class BottonSheet extends StatefulWidget {
   @override
   State<BottonSheet> createState() => _BottonSheetState();
 }
+
+DateTime now = DateTime.now();
+String formattedDate = DateFormat('dd.MM.yyyy').format(now);
 
 class _BottonSheetState extends State<BottonSheet> {
   @override
@@ -21,14 +25,14 @@ class _BottonSheetState extends State<BottonSheet> {
     }
 
     double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
 
-    void closeBotSheet() => Navigator.pop(context);
+    // void closeBotSheet() => Navigator.pop(context);
+
     final MediaQueryData mediaQueryData = MediaQuery.of(context);
     return Padding(
       padding: mediaQueryData.viewInsets,
       child: Container(
-        height: 330,
+        // height: 330,
         color: Colors.transparent,
         child: Container(
           decoration: const BoxDecoration(
@@ -48,7 +52,7 @@ class _BottonSheetState extends State<BottonSheet> {
                     height: 5,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5.0),
-                      color: Color(0xFFc4c4c4),
+                      color: const Color(0xFFc4c4c4),
                     ),
                   ),
                   const SizedBox(
@@ -76,7 +80,7 @@ class _BottonSheetState extends State<BottonSheet> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
 
@@ -88,25 +92,41 @@ class _BottonSheetState extends State<BottonSheet> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             "Due date",
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 8,
                           ),
                           GestureDetector(
                             onTap: () {
-                              print(formattedText + '___45545');
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return DueDate(
-                                    formatedTextUpdate: formatedTextUpdate,
-                                    updatedFormattedText: updatedFormattedText,
-                                    state: (void Function() fn) {},
-                                  );
-                                },
-                              );
+                              // print(formattedText + '___45545');
+                              // showDialog(
+                              //   context: context,
+                              //   builder: (BuildContext context) {
+
+                              showModalBottomSheet<void>(
+                                  isScrollControlled: true,
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return StatefulBuilder(
+                                      builder: (context, state) {
+                                        return SafeArea(
+                                          child: Wrap(
+                                            children: [
+                                              DueDate(
+                                                formatedTextUpdate:
+                                                    formatedTextUpdate,
+                                                updatedFormattedText:
+                                                    updatedFormattedText,
+                                                state: (void Function() fn) {},
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  });
                             },
                             child: Container(
                               width: (width / 3) * 1,
@@ -121,9 +141,9 @@ class _BottonSheetState extends State<BottonSheet> {
                                 children: [
                                   Text(
                                     formattedText.toString(),
-                                    style: TextStyle(fontSize: 13),
+                                    style: const TextStyle(fontSize: 13),
                                   ),
-                                  Icon(Icons.calendar_month),
+                                  const Icon(Icons.calendar_month),
                                 ],
                               ),
                             ),
@@ -134,10 +154,10 @@ class _BottonSheetState extends State<BottonSheet> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             "Repeat",
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 8,
                           ),
                           GestureDetector(
@@ -145,7 +165,7 @@ class _BottonSheetState extends State<BottonSheet> {
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
-                                  return RepeatDialog();
+                                  return const RepeatDialog();
                                 },
                               );
                             },
@@ -159,7 +179,7 @@ class _BottonSheetState extends State<BottonSheet> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
-                                children: [
+                                children: const [
                                   Text('19.08.2022'),
                                   Icon(Icons.calendar_month),
                                 ],
@@ -170,7 +190,7 @@ class _BottonSheetState extends State<BottonSheet> {
                       )
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 25,
                   ),
                   RoundButton(
@@ -181,12 +201,16 @@ class _BottonSheetState extends State<BottonSheet> {
                     radius: 5,
                     action: () {},
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   TextButton(
-                    onPressed: closeBotSheet,
-                    child: Text(
+                    onPressed: () {
+                      formattedText = formattedDate;
+                      // print(formattedDate);
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text(
                       "Back to Task list",
                       style: TextStyle(
                         color: Color(0xFF909090),

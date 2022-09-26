@@ -4,9 +4,14 @@ class CTextButton extends StatelessWidget {
   final String text;
   final dynamic action;
   final double size;
+  final Color btColor;
 
   const CTextButton(
-      {Key? key, required this.text, this.action, required this.size})
+      {Key? key,
+      required this.text,
+      this.action,
+      required this.size,
+      required this.btColor})
       : super(key: key);
 
   @override
@@ -22,7 +27,7 @@ class CTextButton extends StatelessWidget {
       child: Text(
         text,
         style: TextStyle(
-          color: const Color(0xFFff4f5a),
+          color: btColor,
           fontSize: size,
         ),
       ),

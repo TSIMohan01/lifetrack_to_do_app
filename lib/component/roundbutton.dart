@@ -25,12 +25,11 @@ class RoundButton extends StatelessWidget {
       height: 45,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
+          foregroundColor: textColor,
+          backgroundColor: bgColor,
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(radius)),
-          // Foreground color
-          onPrimary: textColor, // Colors.white,
-          // Background color
-          primary: bgColor, // const Color(0xFFff4f5a),
+              borderRadius:
+                  BorderRadius.circular(radius)), // const Color(0xFFff4f5a),
         ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
         onPressed: () => action(),
         child: Text(
